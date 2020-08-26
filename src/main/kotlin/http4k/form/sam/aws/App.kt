@@ -18,7 +18,8 @@ import org.http4k.format.Jackson.auto
 import org.http4k.core.Body
 import org.http4k.format.Jackson
 
-data class Message(val body:String)
+data class From(val name:String)
+data class Message(val body:String,val from:From)
 val json = Jackson
 
 var messageLens = Body.auto<Message>().toLens();
@@ -32,7 +33,7 @@ object FirstLambda : AppLoader {
         println("He recibido " + m.body)
         val objectUsingDslApi: JsonNode = json {
             obj(
-                    "thisIsAString" to string(m.body),
+                    "thisIsAString" to string(m.body + "y-" + m.from.name),
                     "thisIsANumber" to number(12345),
                     "thisIsAList" to array(listOf(boolean(true)))
             )
@@ -54,7 +55,7 @@ fun main(args: Array<String>) {
         //     val response = ApacheClient()(Request(Method.POST, "http://localhost:8000/").body("hello hello hello, " +
         //              "i suppose this isn't 140 characters anymore.."))
 
-        val myRequest: Message = Message("kiquetal");
+        val myRequest: Message = Message("kiquetal",From("solicitud"));
         val messageLens = Body.auto<Message>().toLens()
         val response = ApacheClient()(Request(Method.POST, "http://localhost:8000/").with(
                 messageLens of myRequest
