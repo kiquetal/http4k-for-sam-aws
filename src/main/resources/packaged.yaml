@@ -1,0 +1,13 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Resources:
+  HelloFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: SamTemplateFunction
+      Timeout: 30
+      Handler: http4k.form.sam.aws.App::handle
+      Runtime: java8
+      CodeUri: s3://bucket-cresterida-http4ks-us/0b34d6be22d92510dae6cd73bfad60c2
+      Policies:
+      - AWSLambdaExecute
