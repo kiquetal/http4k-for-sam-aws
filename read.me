@@ -1,0 +1,11 @@
+
+
+sam deploy \
+    --template-file packaged.yaml \
+    --stack-name sam-orderHandler \
+    --capabilities CAPABILITY_IAM
+
+sam package \
+    --template-file template.yaml \
+    --output-template-file packaged.yaml \
+    --s3-bucket $BUCKET_NAME
